@@ -13,7 +13,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { saveCar } from '../api/car';
 
-const page = () => {
+const Page = () => {
 
     const [model, setModel] = useState('');
     const [price, setPrice] = useState('');
@@ -132,4 +132,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
