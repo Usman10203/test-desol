@@ -33,11 +33,12 @@ const Login = () => {
             } else if (response?.data?.status == 500) {
                 alert(`${response?.data?.message}`);
             }
-            else if (response?.data?.status == 404) {
+            else if (response?.data?.status == 401) {
                 alert(`${response?.data?.message}`);
             }
-            else {
 
+            else if (response?.data?.status == 404) {
+                alert(`${response?.data?.message}`);
             }
 
         } catch (error) {

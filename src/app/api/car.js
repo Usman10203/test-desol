@@ -1,25 +1,19 @@
 
 import Api from "../utils/axios/axios";
 
-export const saveCar = async (car_model, price, phone, city, pictures) => {
-    console.log(`savecar model, price, phone, selectedCity`, car_model, price, phone, city, pictures);
+export const saveCar = async (formData) => {
+    console.log(`saveCar formData:`, formData); // Log for debugging
+
     try {
-        return await Api.post(
-            "/car/add",
-            {
-                car_model,
-                price,
-                phone,
-                city,
-                pictures
+        const response = await Api.post("/car/add", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
             }
-        ).then(response => {
-            return response;
-        })
-            .catch(error => {
-                return error;
-            });
+        });
+
+        return response; // Assuming the response contains success/error data
     } catch (error) {
-        console.log(error);
+        console.error('Error saving car:', error);
+        throw error; // Re-throw the error for proper handling in the calling code
     }
-}
+};

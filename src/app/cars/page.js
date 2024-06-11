@@ -47,21 +47,34 @@ const Page = () => {
             return;
         }
         e.preventDefault();
+        const formData = new FormData();
+        formData.append('car_model', model);
+        formData.append('price', price);
+        formData.append('phone', phone);
+        formData.append('city', selectedCity);
+
+        pictures.forEach((picture, index) => {
+            formData.append('pictures', picture);
+        });
+
         try {
-            const response = await saveCar(model, price, phone, selectedCity, pictures)
+            const response = await saveCar(formData);
+            console.log(`response`, response);
             if (response?.status == 201) {
 
                 alert('Car Data Saved successfully')
                 setModel("");
                 setPrice("");
                 setPhone("");
+                setPictures("");
 
             } else if (response?.response?.status == 500) {
-                toast.error(`${response?.response?.data?.msg}`);
+                alert('Cant add car right now');
             }
 
 
         } catch (error) {
+            alert('Error submitting');
             console.log(error)
         }
     };
@@ -85,7 +98,7 @@ const Page = () => {
                     </FormControl>
 
                     <FormLabel component="legend">City:</FormLabel>
-                    <RadioGroup value={selectedCity} onChange={handleCityChange}>
+                    <RadioGroup row value={selectedCity} onChange={handleCityChange}>
                         {cities.map((city) => (
                             <FormControlLabel key={city} value={city} control={<Radio />} label={city} />
                         ))}
