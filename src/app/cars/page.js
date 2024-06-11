@@ -66,7 +66,7 @@ const Page = () => {
                 setModel("");
                 setPrice("");
                 setPhone("");
-                setPictures("");
+                setPictures([]);
 
             } else if (response?.response?.status == 500) {
                 alert('Cant add car right now');
