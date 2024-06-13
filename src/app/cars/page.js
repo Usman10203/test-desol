@@ -3,7 +3,7 @@ import React from 'react'
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Box } from '@mui/material';
+import { Backdrop, Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -12,9 +12,12 @@ import Radio from '@mui/material/Radio';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { saveCar } from '../api/car';
+import { useEffect } from 'react';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
 
 const Page = () => {
-
+    const [userId, setUserId] = useState('');
     const [model, setModel] = useState('');
     const [price, setPrice] = useState('');
     const [phone, setPhone] = useState('');
@@ -22,6 +25,12 @@ const Page = () => {
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedCopy, setSelectedCopy] = useState(1);
     const [pictures, setPictures] = useState([]);
+
+    useEffect(() => {
+        setUserId(localStorage.getItem('loggedInUserId'))
+    })
+
+    console.log(`userId`, userId);
     const handleCityChange = (event) => {
         setSelectedCity(event.target.value);
     };
@@ -48,6 +57,7 @@ const Page = () => {
         }
         e.preventDefault();
         const formData = new FormData();
+        formData.append('userId', userId);
         formData.append('car_model', model);
         formData.append('price', price);
         formData.append('phone', phone);
@@ -82,7 +92,7 @@ const Page = () => {
     return (
         <>
             <h1 style={{ textAlign: 'center' }}>Car Selling</h1>
-            <Box sx={{ maxWidth: '600px', mx: 'auto', bgcolor: 'background.paper', p: 3 }}>
+            <Box sx={{ maxWidth: '600px', mx: 'auto', bgcolor: 'background.paper', p: 3, borderWidth: '1px', borderStyle: 'solid', borderColor: 'black' }}>
                 <form onSubmit={handleSubmit}>
                     <FormControl margin="normal" fullWidth>
                         <FormLabel>Car Model:</FormLabel>
@@ -94,7 +104,19 @@ const Page = () => {
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <FormLabel>Phone:</FormLabel>
-                        <TextField variant="outlined" size="small" type="number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                        {/* <TextField variant="outlined" size="small" type="number" value={phone} onChange={(e) => setPhone(e.target.value)} required /> */}
+                        <PhoneInput
+                            international
+                            countryCallingCodeEditable={false}
+                            defaultCountry="US"
+                            placeholder="Enter phone number"
+                            value={phone}
+                            onChange={setPhone}
+                            style={{
+                                border: '1px solid white',
+                                padding: '10px',
+                            }}
+                        />
                     </FormControl>
 
                     <FormLabel component="legend">City:</FormLabel>

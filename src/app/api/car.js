@@ -2,7 +2,7 @@
 import Api from "../utils/axios/axios";
 
 export const saveCar = async (formData) => {
-    console.log(`saveCar formData:`, formData); // Log for debugging
+    console.log(`saveCar formData:`, formData);
 
     try {
         const response = await Api.post("/car/add", formData, {
@@ -11,9 +11,9 @@ export const saveCar = async (formData) => {
             }
         });
 
-        return response; // Assuming the response contains success/error data
+        return response;
     } catch (error) {
         console.error('Error saving car:', error);
-        throw error; // Re-throw the error for proper handling in the calling code
+        throw error;
     }
 };
